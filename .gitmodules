@@ -1,0 +1,6 @@
+[submodule "libRoomba"]
+	path = libRoomba
+	url = https://github.com/sugarsweetrobotics/libRoomba.git
+[submodule "libaqua"]
+	path = libaqua
+	url = https://github.com/sugarsweetrobotics/libaqua.git

@@ -10,6 +10,9 @@ set(PROJECT_VENDOR "Sugar Sweet Robotics")
 set(PROJECT_AUTHOR "Sugar Sweet Robotics")
 set(PROJECT_AUTHOR_SHORT "Sugar Sweet Robotics")
 
+
+add_subdirectory(libRoomba)
+
 # Add an "uninstall" target
 CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
     "${PROJECT_BINARY_DIR}/uninstall_target.cmake" IMMEDIATE @ONLY)
@@ -58,6 +61,11 @@ endif(${OpenRTM_FOUND})
 #enable_testing()
 
 # Subdirectories
+
+
+
+
+
 add_subdirectory(cmake)
 if(BUILD_DOCUMENTATION)
     add_subdirectory(doc)
@@ -70,6 +78,9 @@ endif(BUILD_DOCUMENTATION)
 if(BUILD_IDL)
     add_subdirectory(idl)
 endif(BUILD_IDL)
+
+#add_subdirectory(libaqua)
+
 
 add_subdirectory(include)
 MAP_ADD_STR(headers  "include/" comp_hdrs)
