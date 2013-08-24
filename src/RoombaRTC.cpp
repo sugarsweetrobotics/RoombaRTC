@@ -14,6 +14,7 @@
 
 #include "RoombaRTC.h"
 
+#include "libroomba.h"
 // Module specification
 // <rtc-template block="module_spec">
 static const char* roombartc_spec[] =
@@ -130,18 +131,81 @@ RTC::ReturnCode_t RoombaRTC::onShutdown(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t RoombaRTC::onActivated(RTC::UniqueId ec_id)
 {
+  try {
+    Model  model = ::MODEL_CREATE;
+    if(m_model == "500series") {
+      model = ::MODEL_500SERIES;
+    }
+    //    m_pRoomba = //new ssr::Roomba(model, m_serial_port.c_str(), m_baudrate);
+    m_pRoomba = ssr::createRoomba(model, m_serial_port.c_str(), m_baudrate);
+  } catch (std::exception &e) {
+    std::cerr << "Exception in creating Roomba: " << e.what() << std::endl;
+    return RTC::RTC_ERROR;
+  }
+  m_pRoomba->safeControl();
+  m_pRoomba->runAsync();
+
+  m_roombaCommand.setRoomba(m_pRoomba);
+
   return RTC::RTC_OK;
 }
 
 
 RTC::ReturnCode_t RoombaRTC::onDeactivated(RTC::UniqueId ec_id)
 {
+  delete m_pRoomba;
+  m_pRoomba = NULL;
+
   return RTC::RTC_OK;
 }
 
 
 RTC::ReturnCode_t RoombaRTC::onExecute(RTC::UniqueId ec_id)
 {
+  if(m_targetVelIn.isNew()) {
+    m_targetVelIn.read();
+    m_pRoomba->setMode(::MODE_FULL);
+    m_pRoomba->setTargetVelocity(m_targetVel.data.vx, m_targetVel.data.va);
+  }
+
+  //  double x, y, th;
+  ssr::Pose pose = m_pRoomba->getCurrentPose();
+  //m_pRoomba->getCurrentPosition(&x, &y, &th);
+  m_currentPos.data.position.x = pose.x;
+  m_currentPos.data.position.y = pose.y;
+  m_currentPos.data.heading = pose.th;
+  m_currentPosOut.write();
+
+  //double vx, va;
+  //m_pRoomba->getCurrentVelocity(&vx, &va);
+  ssr::Velocity vel = m_pRoomba->getCurrentVelocity();
+  m_currentVel.data.vx = vel.x;
+  m_currentVel.data.vy = 0;
+  m_currentVel.data.va = vel.th;
+  m_currentVelOut.write();
+
+  if(m_serviceNameIn.isNew()) {
+    m_serviceNameIn.read();
+    std::string service = std::string( (char*)m_serviceName.data );
+    if(service == "clean") {
+      //      m_pRoomba->setMode(Roomba::MODE_START);
+      m_pRoomba->setMode(::MODE_NORMAL_CLEAN);
+    } else if(service == "dock") {
+      //      m_pRoomba->setMode(Roomba::MODE_START);
+      m_pRoomba->setMode(::MODE_DOCK);
+    } else if(service == "spot") {
+      //      m_pRoomba->setMode(Roomba::MODE_START);
+      m_pRoomba->setMode(::MODE_SPOT_CLEAN);
+    } else if(service == "max") {
+      //      m_pRoomba->setMode(Roomba::MODE_START;)
+      m_pRoomba->setMode(::MODE_MAX_TIME_CLEAN);
+    } else if(service == "sleep") {
+      //      m_pRoomba->setMode(Roomba::MODE_START);
+      m_pRoomba->setMode(::MODE_SLEEP);
+    } 
+  }
+  
+
   return RTC::RTC_OK;
 }
 

@@ -33,7 +33,11 @@
 // Service Consumer stub headers
 // <rtc-template block="consumer_stub_h">
 
+
 // </rtc-template>
+
+
+#include "Roomba.h"
 
 using namespace RTC;
 
@@ -336,6 +340,8 @@ class RoombaRTC
   
   // </rtc-template>
 
+
+  ssr::Roomba *m_pRoomba;
 };
 
 

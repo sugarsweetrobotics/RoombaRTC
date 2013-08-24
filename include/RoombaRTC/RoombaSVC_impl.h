@@ -14,6 +14,8 @@
 
 #ifndef ROOMBASVC_IMPL_H
 #define ROOMBASVC_IMPL_H
+
+#include "Roomba.h"
  
 /*!
  * @class RoombaCommandSVC_impl
@@ -28,11 +30,16 @@ class RoombaCommandSVC_impl
    // destructor non-public
    //virtual ~RoombaCommandSVC_impl();
 
+  ssr::Roomba* m_pRoomba;
  public:
   /*!
    * @brief standard constructor
    */
-   RoombaCommandSVC_impl();
+  RoombaCommandSVC_impl();
+
+  void setRoomba(ssr::Roomba* pRoomba) {
+    m_pRoomba = pRoomba;
+  }
   /*!
    * @brief destructor
    */
