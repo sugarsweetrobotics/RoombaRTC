@@ -5,7 +5,7 @@
  * @date  $Date$
  *
  * @author ysuga (ysuga@ysuga.net)
- * URL: http://www.ysuga.net/robot/
+ * URL: http://sugarsweetrobotics.com
  *
  * LGPL
  *
