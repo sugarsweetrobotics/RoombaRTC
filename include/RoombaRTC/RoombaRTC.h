@@ -4,7 +4,7 @@
  * @brief Roomba RTC
  * @date  $Date$
  *
- * @author ysuga (ysuga@ysuga.net)
+ * @author ysuga (ysuga@sugarsweetrobotics.com)
  * URL: http://sugarsweetrobotics.com
  *
  * LGPL
