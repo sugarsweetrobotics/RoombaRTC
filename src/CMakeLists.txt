@@ -1,4 +1,9 @@
-set(comp_srcs RoombaRTC.cpp RoombaSVC_impl.cpp )
+set(comp_srcs RoombaRTC.cpp RoombaSVC_impl.cpp 
+    ${PROJECT_SOURCE_DIR}/libRoomba/src/RoombaImpl.cpp
+    ${PROJECT_SOURCE_DIR}/libRoomba/src/Protocol.cpp
+    ${PROJECT_SOURCE_DIR}/libRoomba/src/Transport.cpp
+    ${PROJECT_SOURCE_DIR}/libRoomba/src/libroomba.cpp
+)
 set(standalone_srcs RoombaRTCComp.cpp)
 
 if (DEFINED OPENRTM_INCLUDE_DIRS)
@@ -45,11 +50,11 @@ add_library(${PROJECT_NAME} ${LIB_TYPE} ${comp_srcs}
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 set_source_files_properties(${ALL_IDL_SRCS} PROPERTIES GENERATED 1)
 add_dependencies(${PROJECT_NAME} ALL_IDL_TGT)
-target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES} roombaStatic)
+target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES})
 
 add_executable(${PROJECT_NAME}Comp ${standalone_srcs}
   ${comp_srcs} ${comp_headers} ${ALL_IDL_SRCS})
-target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES} roombaStatic)
+target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}Comp
     EXPORT ${PROJECT_NAME}

@@ -11,7 +11,7 @@ set(PROJECT_AUTHOR "Sugar Sweet Robotics")
 set(PROJECT_AUTHOR_SHORT "Sugar Sweet Robotics")
 
 
-add_subdirectory(libRoomba)
+# add_subdirectory(libRoomba)
 
 # Add an "uninstall" target
 CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
