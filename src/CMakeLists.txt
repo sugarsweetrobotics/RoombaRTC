@@ -56,6 +56,13 @@ add_executable(${PROJECT_NAME}Comp ${standalone_srcs}
   ${comp_srcs} ${comp_headers} ${ALL_IDL_SRCS})
 target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+  COMPILE_FLAGS "-DaquaStatic_EXPORTS -DroombaStatic_EXPORTS") 
+set_target_properties(${PROJECT_NAME}Comp PROPERTIES 
+  COMPILE_FLAGS "-DaquaStatic_EXPORTS -DroombaStatic_EXPORTS") 
+
+
+
 install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}Comp
     EXPORT ${PROJECT_NAME}
     RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT component
